@@ -1,47 +1,48 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QDoubleSpinBox
-from PyQt5.QtWidgets import QLabel, QLineEdit, QSpinBox, QPlainTextEdit, QComboBox, QVBoxLayout, QFileDialog, QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QLabel, QLineEdit, QSpinBox, QPlainTextEdit, QComboBox, QVBoxLayout, QFileDialog, QWidget, \
+    QHBoxLayout
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 from subprocess import call
 import os
 
 first_style = ("background-color: rgb(255, 150, 150);\n"
-"border-radius: 0px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(1, 5)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
+               "border-radius: 0px;\n"
+               "\n"
+               "}\n"
+               "QPushButton:hover{    \n"
+               "    background-color: rgb(191, 191, 191);\n"
+               "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+               "    effect.setOffset(1, 5)\n"
+               "    effect.setBlurRadius(20)\n"
+               "    effect.setColor(QColor(57, 219, 255))\n"
+               "    QPushButton.setGraphicsEffect(effect)")
 
 second_style = ("background-color: rgb(100, 255, 100);\n"
-"border-radius: 0px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(1, 5)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
+                "border-radius: 0px;\n"
+                "\n"
+                "}\n"
+                "QPushButton:hover{    \n"
+                "    background-color: rgb(191, 191, 191);\n"
+                "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+                "    effect.setOffset(1, 5)\n"
+                "    effect.setBlurRadius(20)\n"
+                "    effect.setColor(QColor(57, 219, 255))\n"
+                "    QPushButton.setGraphicsEffect(effect)")
 
 third_style = ("background-color: rgb(255, 255, 0);\n"
-"border-radius: 10px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(0, 0)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
+               "border-radius: 10px;\n"
+               "\n"
+               "}\n"
+               "QPushButton:hover{    \n"
+               "    background-color: rgb(191, 191, 191);\n"
+               "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+               "    effect.setOffset(0, 0)\n"
+               "    effect.setBlurRadius(20)\n"
+               "    effect.setColor(QColor(57, 219, 255))\n"
+               "    QPushButton.setGraphicsEffect(effect)")
 
 fourth_style = '''
 QPushButton[text='X'] {
@@ -53,6 +54,7 @@ QPushButton[text='O'] {
     font-size: 25px;
 }
 '''
+
 
 class FirstForm(QMainWindow):
     def __init__(self):
@@ -77,7 +79,7 @@ class FirstForm(QMainWindow):
         self.background.resize(600, 600)
         self.background.setStyleSheet(stylesheet)
 
-        self.menu_label = QLabel("Классификатор сайтов\n\tBy Turbotoster team", self)
+        self.menu_label = QLabel("Классификатор сайтов\n\tBy АУ team", self)
         self.menu_label.move(184, 30)
         self.menu_label.resize(1000, 60)
         self.menu_label.setAutoFillBackground(True)
@@ -87,15 +89,12 @@ class FirstForm(QMainWindow):
             font: 87 14pt Segoe UI Black;
         """)
 
-
-
         self.main_func_btn = QPushButton('Одиночный Url', self)
         self.main_func_btn.resize(250, 30)
         self.main_func_btn.move(160, 150)
         self.main_func_btn.setToolTip('Нажмите, если у вас один url')
         self.main_func_btn.setStyleSheet(third_style)
         self.main_func_btn.setFont(self.my_font)
-
 
         self.pioneer_csv_btn = QPushButton('CSV с URL', self)
         self.pioneer_csv_btn.resize(250, 30)
@@ -104,7 +103,6 @@ class FirstForm(QMainWindow):
         self.pioneer_csv_btn.setStyleSheet(third_style)
         self.pioneer_csv_btn.setFont(self.my_font)
 
-
         self.pioneer_test_csv_btn = QPushButton('Тестовый', self)
         self.pioneer_test_csv_btn.resize(250, 30)
         self.pioneer_test_csv_btn.setToolTip('Нажмите, если это тестовый прогон')
@@ -112,13 +110,9 @@ class FirstForm(QMainWindow):
         self.pioneer_test_csv_btn.setStyleSheet(third_style)
         self.pioneer_test_csv_btn.setFont(self.my_font)
 
-
-
         self.main_func_btn.clicked.connect(self.open_second_form)
         self.pioneer_csv_btn.clicked.connect(self.csv_ne_test)
         self.pioneer_test_csv_btn.clicked.connect(self.csv_test)
-
-
 
     def open_second_form(self):
         self.second_form = SecondForm(self, "")
@@ -143,7 +137,6 @@ class SecondForm(QWidget):
     def __init__(self, *args):
         super().__init__()
         self.initUI(args)
-
 
     def initUI(self, args):
         font = QFont()
@@ -188,15 +181,15 @@ class SecondForm(QWidget):
         self.url_input.move(380, 220)
         self.url_input.resize(350, 40)
         self.url_input.setStyleSheet("    QLineEdit{\n"
-"    border-radius: 10px;\n"
-"    font-size: 20px;\n"
-"    font-weight: bold;\n"
-"    background: pink;\n"
-"}\n"
-"\n"
-"    QLineEdit:hover {\n"
-"    border: 3px solid rgb(61,181,233);\n"
-"    }")
+                                     "    border-radius: 10px;\n"
+                                     "    font-size: 20px;\n"
+                                     "    font-weight: bold;\n"
+                                     "    background: pink;\n"
+                                     "}\n"
+                                     "\n"
+                                     "    QLineEdit:hover {\n"
+                                     "    border: 3px solid rgb(61,181,233);\n"
+                                     "    }")
         self.url_input.setAlignment(Qt.AlignCenter)
 
         self.starter_btn = QPushButton(self)
@@ -222,12 +215,10 @@ class SecondForm(QWidget):
         self.go_back_btn.show()
         self.setGeometry(0, 0, 0, 0)
 
-
     def play_again_btn_pushed(self):
         self.second_form = SecondForm(self, "")
         self.second_form.show()
         self.setGeometry(0, 0, 0, 0)
-
 
     def afterzapusk(self):
         self.tip_sayta = 'ECONOMIKA'

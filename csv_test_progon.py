@@ -1,48 +1,47 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QRadioButton, QComboBox, QTableView, QVBoxLayout, QTableWidget, QFileDialog, QTableWidgetItem, QPlainTextEdit
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QRadioButton, QComboBox, QTableView, QVBoxLayout, \
+    QTableWidget, QFileDialog, QTableWidgetItem, QPlainTextEdit
 from PyQt5.QtGui import QFont, QIcon, QStandardItemModel, QStandardItem, QColor
 from PyQt5.QtCore import QRect, Qt
 from subprocess import Popen
 import csv
 
-
 second_style = ("background-color: rgb(100, 255, 100);\n"
-"border-radius: 0px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(1, 5)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
+                "border-radius: 0px;\n"
+                "\n"
+                "}\n"
+                "QPushButton:hover{    \n"
+                "    background-color: rgb(191, 191, 191);\n"
+                "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+                "    effect.setOffset(1, 5)\n"
+                "    effect.setBlurRadius(20)\n"
+                "    effect.setColor(QColor(57, 219, 255))\n"
+                "    QPushButton.setGraphicsEffect(effect)")
 
 first_style = ("background-color: rgb(255, 150, 150);\n"
-"border-radius: 0px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(1, 5)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
+               "border-radius: 0px;\n"
+               "\n"
+               "}\n"
+               "QPushButton:hover{    \n"
+               "    background-color: rgb(191, 191, 191);\n"
+               "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+               "    effect.setOffset(1, 5)\n"
+               "    effect.setBlurRadius(20)\n"
+               "    effect.setColor(QColor(57, 219, 255))\n"
+               "    QPushButton.setGraphicsEffect(effect)")
 
 third_style = ("background-color: rgb(255, 255, 0);\n"
-"border-radius: 10px;\n"
-"\n"
-"}\n"
-"QPushButton:hover{    \n"
-"    background-color: rgb(191, 191, 191);\n"
-"    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
-"    effect.setOffset(0, 0)\n"
-"    effect.setBlurRadius(20)\n"
-"    effect.setColor(QColor(57, 219, 255))\n"
-"    QPushButton.setGraphicsEffect(effect)")
-
+               "border-radius: 10px;\n"
+               "\n"
+               "}\n"
+               "QPushButton:hover{    \n"
+               "    background-color: rgb(191, 191, 191);\n"
+               "    effect = QtWidgets.QGraphicsDropShadowEffect(QPushButton)\n"
+               "    effect.setOffset(0, 0)\n"
+               "    effect.setBlurRadius(20)\n"
+               "    effect.setColor(QColor(57, 219, 255))\n"
+               "    QPushButton.setGraphicsEffect(effect)")
 
 
 class FirstForm(QWidget):
@@ -103,8 +102,6 @@ class FirstForm(QWidget):
             self.pioneer_btn.hide()
             self.pioneer_btn.clicked.connect(self.fill_in)
 
-
-
         if not tablica:
             self.download_button = QPushButton(self)
             self.download_button.setText("Выберите csv файл")
@@ -120,7 +117,6 @@ class FirstForm(QWidget):
                 self.download_button.hide()
                 self.main_table.setRowCount(len(self.inside_csv))
                 self.main_table.setHidden(False)
-
 
                 for i in range(len(self.inside_csv)):
                     self.main_table.setItem(i, 0, QTableWidgetItem(self.inside_csv[i][0]))
@@ -142,11 +138,7 @@ class FirstForm(QWidget):
             else:
                 self.error_lable.show()
 
-
-
-
-            #self.zapustit_btn.hide()
-
+            # self.zapustit_btn.hide()
 
         self.main_table = QTableWidget(self)
         self.main_table.setGeometry(QRect(350, 228, 510, 430))
@@ -154,19 +146,18 @@ class FirstForm(QWidget):
         self.main_table.setHorizontalHeaderLabels(['Url', 'Результат', 'Правильный'])
         self.main_table.setHidden(True)
 
-
     def dialog(self):
         self.file, self.checker = QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()",
-                                                  "", "All Files (*.csv)")
+                                                              "", "All Files (*.csv)")
         if self.checker:
             self.inside_csv = []
             with open(self.file, encoding="utf8") as f:
                 reader = csv.reader(f, delimiter=';')
-                #print(all(len(z) == 2 for z in reader))
+                # print(all(len(z) == 2 for z in reader))
                 for i, j in enumerate(reader):
                     if i > 0:
                         self.inside_csv.append(j)
-            #if all(len(z) == 2 for z in self.inside_csv):
+            # if all(len(z) == 2 for z in self.inside_csv):
             self.error_lable.hide()
             self.ecran(tablica=True, sec_tablica=False)
             print(self.inside_csv)
@@ -180,7 +171,6 @@ class FirstForm(QWidget):
             for i in range(len(self.vtoroy_stolbec)):
                 opened_file.write(f'\n{self.inside_csv[i][0]};{self.vtoroy_stolbec[i]}')
 
-
     def fill_in(self):
         self.vtoroy_stolbec = ['Экономика', 'error', '1']
         self.ecran(tablica=True, sec_tablica=True)
@@ -193,10 +183,6 @@ class FirstForm(QWidget):
     def go_back(self):
         Popen(['python', 'menu.py'])
         sys.exit('csv_progon.py')
-
-
-
-
 
 
 if __name__ == '__main__':
