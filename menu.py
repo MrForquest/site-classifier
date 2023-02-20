@@ -1,16 +1,11 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QDoubleSpinBox
-from PyQt5.QtWidgets import QLabel, QLineEdit, QSpinBox, QPlainTextEdit, QComboBox, QVBoxLayout, QFileDialog, QWidget, QHBoxLayout
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt
-from subprocess import call
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QRadioButton, QComboBox, QTableView, QVBoxLayout, QTableWidget, QFileDialog, QTableWidgetItem, QPlainTextEdit
-from PyQt5.QtGui import QFont, QIcon, QStandardItemModel, QStandardItem, QColor
+from PyQt5.QtWidgets import QLineEdit
+
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QTableWidget, QFileDialog, QTableWidgetItem, QPlainTextEdit
+from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import QRect, Qt
-from subprocess import Popen
 import csv
-import os
 
 first_style = ("background-color: rgb(255, 150, 150);\n"
 "border-radius: 0px;\n"
@@ -128,22 +123,22 @@ class FirstForm(QMainWindow):
     def open_second_form(self):
         self.second_form = SecondForm(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
     def play_again_btn_pushed(self):
         self.second_form = SecondForm(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
     def csv_ne_test(self):
         self.second_form = Csv_progon(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
     def csv_test(self):
         self.second_form = Csv_test_progon(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
 
 class SecondForm(QWidget):
@@ -227,13 +222,13 @@ class SecondForm(QWidget):
     def nazad_vernutsya(self):
         self.go_back_btn = FirstForm()
         self.go_back_btn.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
 
     def play_again_btn_pushed(self):
         self.second_form = SecondForm(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
 
     def afterzapusk(self):
@@ -391,12 +386,12 @@ class Csv_test_progon(QWidget):
     def again_func(self):
         self.second_form = Csv_test_progon(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
     def go_back(self):
         self.go_back_btn = FirstForm()
         self.go_back_btn.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
 
 class Csv_progon(QWidget):
@@ -532,12 +527,12 @@ class Csv_progon(QWidget):
     def again_funk(self):
         self.second_form = Csv_progon(self, "")
         self.second_form.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
     def go_back(self):
         self.go_back_btn = FirstForm()
         self.go_back_btn.show()
-        self.setGeometry(0, 0, 0, 0)
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
