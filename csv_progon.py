@@ -2,8 +2,8 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QRadioButton, QComboBox, QTableView, QVBoxLayout, QTableWidget, QFileDialog, QTableWidgetItem, QPlainTextEdit
 from PyQt5.QtGui import QFont, QIcon, QStandardItemModel, QStandardItem, QColor
-from PyQt5.QtCore import QRect
-from subprocess import Popen
+from PyQt5.QtCore import QRect, Qt
+from subprocess import Popen, call
 import csv
 
 
@@ -72,8 +72,9 @@ class FirstForm(QWidget):
         self.again.setFont(QFont("Times New Roman", 15))
         self.csv_save_btn = QPushButton(self)
         self.csv_save_btn.setText('Сохранить csv')
-        self.csv_save_btn.move(800, 222)
-        self.csv_save_btn.resize(140, 40)
+        self.csv_save_btn.move(350, 150)
+        self.csv_save_btn.resize(200, 45)
+        self.csv_save_btn.setFont(QFont("Times New Roman", 15))
         self.csv_save_btn.setStyleSheet(third_style)
         self.csv_save_btn.clicked.connect(self.csv_saver_func)
         self.csv_save_btn.hide()
@@ -83,6 +84,13 @@ class FirstForm(QWidget):
         self.comeback_to_menu.setStyleSheet(second_style)
         self.comeback_to_menu.setFont(QFont("Times New Roman", 15))
         self.comeback_to_menu.clicked.connect(self.go_back)
+        self.error_lable = QLabel(self)
+        self.error_lable.move(330, 228)
+        self.error_lable.setText('Выбранный вами csv файл\nне соответствует стандартам категории')
+        self.error_lable.setStyleSheet("color: rgb(255, 0, 0);")
+        self.error_lable.setAlignment(Qt.AlignCenter)
+        self.error_lable.setFont(QFont('Times', 15, QFont.Bold))
+        self.error_lable.hide()
 
         if not sec_tablica:
             self.pioneer_btn = QPushButton('Запустить', self)
@@ -100,30 +108,33 @@ class FirstForm(QWidget):
             self.download_button.setText("Выберите csv файл")
             self.download_button.clicked.connect(self.dialog)
             self.download_button.resize(228, 60)
-            self.download_button.move(450, 150)
+            self.download_button.move(350, 150)
             self.download_button.setStyleSheet(third_style)
             self.download_button.setFont(QFont("Times New Roman", 15))
             self.proverka_na_pustotu = False
         else:
-            self.pioneer_btn.show()
-            self.download_button.hide()
-            self.main_table.setRowCount(len(self.csv_in))
-            for i in range(len(self.csv_in)):
-                self.main_table.setItem(i, 0, QTableWidgetItem(self.csv_in[i]))
-            if sec_tablica:
-                self.csv_save_btn.show()
-                for i in range(len(self.second_table)):
-                    self.main_table.setItem(i, 1, QTableWidgetItem(self.second_table[i]))
-                    if self.main_table.item(i, 1).text().strip() == 'error':
-                        self.main_table.item(i, 1).setBackground(QColor(255, 0, 0))
-                        self.main_table.item(i, 0).setBackground(QColor(255, 0, 0))
-                    else:
-                        self.main_table.item(i, 1).setBackground(QColor(0, 255, 0))
+            if all(len(z) == 1 for z in self.csv_in):
+                self.error_lable.hide()
+                self.inside_csv = [i[0] for i in self.csv_in]
+                self.pioneer_btn.show()
+                self.download_button.hide()
+                self.main_table.setRowCount(len(self.csv_in))
+                self.main_table.setHidden(False)
 
-            self.main_table.setHidden(False)
+                for i in range(len(self.csv_in)):
+                    self.main_table.setItem(i, 0, QTableWidgetItem(self.inside_csv[i]))
+                if sec_tablica:
+                    self.csv_save_btn.show()
+                    for i in range(len(self.second_table)):
+                        self.main_table.setItem(i, 1, QTableWidgetItem(self.second_table[i]))
+                        if self.main_table.item(i, 1).text().strip() == 'error':
+                            self.main_table.item(i, 1).setBackground(QColor(255, 0, 0))
+                            self.main_table.item(i, 0).setBackground(QColor(255, 0, 0))
+                        else:
+                            self.main_table.item(i, 1).setBackground(QColor(0, 255, 0))
 
-            #self.zapustit_btn.hide()
-
+            else:
+                self.error_lable.show()
 
         self.main_table = QTableWidget(self)
         self.main_table.setGeometry(QRect(350, 228, 310, 430))
@@ -133,16 +144,21 @@ class FirstForm(QWidget):
 
 
     def dialog(self):
+        self.error_lable.hide()
+
         self.file, self.checker = QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()",
                                                   "", "All Files (*.csv)")
         if self.checker:
             self.csv_in = []
             with open(self.file, encoding="utf8") as f:
                 reader = csv.reader(f, delimiter=';')
+                #print(all(len(z) == 2 for z in reader))
                 for i, j in enumerate(reader):
-
                     if i > 0:
-                        self.csv_in.append(*j)
+                        self.csv_in.append(j)
+            #if all(len(z) == 2 for z in self.inside_csv):
+            #self.error_lable.hide()
+            #print(self.csv_in)
             self.screen_table(tablica=True, sec_tablica=False)
 
 
@@ -160,8 +176,8 @@ class FirstForm(QWidget):
 
 
     def again_funk(self):
-        Popen(['python', 'csv_progon.py'])
-        sys.exit('csv_progon.py')
+        self.setGeometry(0, 0, 0, 0)
+        call(["python", "csv_progon.py"])
 
     def go_back(self):
         Popen(['python', 'menu.py'])
