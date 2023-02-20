@@ -394,8 +394,8 @@ class Csv_test_progon(QWidget):
         self.setGeometry(0, 0, 0, 0)
 
     def go_back(self):
-        self.second_form = SecondForm(self, "")
-        self.second_form.show()
+        self.go_back_btn = FirstForm()
+        self.go_back_btn.show()
         self.setGeometry(0, 0, 0, 0)
 
 
@@ -535,8 +535,8 @@ class Csv_progon(QWidget):
         self.setGeometry(0, 0, 0, 0)
 
     def go_back(self):
-        self.second_form = SecondForm(self, "")
-        self.second_form.show()
+        self.go_back_btn = FirstForm()
+        self.go_back_btn.show()
         self.setGeometry(0, 0, 0, 0)
 
 if __name__ == '__main__':
