@@ -190,16 +190,3 @@ russian_stopwords = [
     "всю",
     "между",
 ]
-
-
-class SiteTextClassifier:
-    def __init__(self, dir_model_path):
-        pass
-
-    def predict(self, texts: list):
-        pass
-        return labels_preds
-
-    def preprocess_text(self, text):
-        pass
-        return new_text

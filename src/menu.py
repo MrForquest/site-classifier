@@ -1,7 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QLineEdit
-
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
@@ -17,7 +16,8 @@ from PyQt5.QtCore import QRect, Qt
 import csv
 from classifer_model.site_text_classifier import SiteTextClassifier
 import asyncio
-from scraper import get_sites_contents
+from selenium_scraper import get_sites_contents
+import yarl
 
 site_classifier = SiteTextClassifier("classifer_model/saves_models/")
 
@@ -98,7 +98,7 @@ class FirstForm(QMainWindow):
         self.background.resize(600, 600)
         self.background.setStyleSheet(stylesheet)
 
-        self.menu_label = QLabel("Классификатор сайтов\n\tBy Turbotoster team",
+        self.menu_label = QLabel("Классификатор сайтов\n\tОт команды АУ",
                                  self)
         self.menu_label.move(184, 30)
         self.menu_label.resize(1000, 60)
@@ -253,10 +253,11 @@ class SecondForm(QWidget):
 
     def afterzapusk(self):
         self.tip_sayta = "ECONOMIKA"
-        url = self.url_input.text()
-        content = asyncio.run(get_sites_contents([url]))
-        print(content)
-        result = site_classifier.predict([content])
+        url = yarl.URL(self.url_input.text())
+        # contents = asyncio.run(get_sites_contents([str(url)]))
+        contents = get_sites_contents([str(url)])
+        print(contents)
+        result = site_classifier.predict([contents[url.host]])[0]
         self.tip_sayta = result
         self.end_btn.setText(f"Тип вашего сайта:\n {self.tip_sayta}")
         self.csv_save_btn.show()
@@ -576,9 +577,14 @@ class Csv_progon(QWidget):
         self.close()
 
 
+def except_hook(cls, exception, traceback):
+    sys.__excepthook__(cls, exception, traceback)
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     ex = FirstForm()
+    sys.excepthook = except_hook
     ex.show()
     sys.exit(app.exec())
