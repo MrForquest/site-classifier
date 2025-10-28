@@ -2,7 +2,6 @@ yarl~=1.8.2
 PyQt5~=5.15.9
 joblib~=1.2.0
 pymystem3~=0.2.0
-sklearn~=0.0.post1
 scikit-learn~=1.0.2
 aiohttp~=3.8.4
 beautifulsoup4~=4.11.2
